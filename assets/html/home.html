@@ -1,0 +1,30 @@
+<!-- home.html -->
+<div>
+	<span ng-bind="userId"></span>
+    <p>This is will be where Itinerary Information will go.
+    </p>
+    <div ng-show = "!itinerary">
+    	<div class="form-group">
+                <h4>Create New Itinerary</h4>
+                <label>Itinerary Id:</label>
+                <input name="itineraryId" class="form-control" ng-model="itineraryId" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+                <!-- Add an error message if the length is too short -->
+                <button ng-click="createNewItinerary()" class="btn btn-success">Create</button>
+        </div>
+    </div>
+
+    <div ng-show = "itinerary">
+    	<div class="form-group">
+                <label>Itinerary Id:</label>
+                <input name="itineraryId" class="form-control" ng-model="itineraryId" value = "{{itineraryId}}">
+                {{currentItinerary}}
+        </div>
+    </div>
+    <ul>
+    	<li>Create a new Itinerary</li>
+    	<li>Choose already created itineray</li>
+    	<li>Information fields</li>
+    </ul>
+
+</div>
