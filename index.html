@@ -34,6 +34,7 @@
           <div ng-show='userId'>      
             <a class="btn btn-default" ui-sref="home">Home</a>
             <a class="btn btn-default" ui-sref="content">Content</a>
+            <a ng-show="currentTrip" class="btn btn-default" ui-sref="trip">Current Trip</a>
             <a class="btn btn-default" ui-sref="about">About</a>
             <button ng-click="logOut()" class="btn btn-warning">Logout</button>
           </div>
