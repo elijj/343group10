@@ -1,4 +1,6 @@
-/*notes 
+/*
+Written by: Eli Jackson
+notes 
 linkes:
 http://stackoverflow.com/questions/21919962/share-data-between-angularjs-controllers
 https://www.firebase.com/docs/web/guide/saving-data.html
@@ -50,13 +52,13 @@ myApp.factory('Data', function () {
 // ---- Configure Controllers for App ---- //
 
 //global controller 
-//controls user log ins
+//This controler controls user log ins
 var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseObject,Data) {
 	var ref = new Firebase("https://sbv15.firebaseio.com/");
   	Data.ref = ref;
   	var userRef  = ref.child('user');
   	ref.child('itinerary').orderByKey().on("child_added", function(snapshot) {
-	  console.log(snapshot.key());
+	  //console.log(snapshot.key());
 	});
     $scope.users = $firebaseObject(userRef);//users
   	$scope.authObj = $firebaseAuth(ref);
@@ -110,11 +112,17 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 });
 
 // Home Controller
+// this controller will control displays and functionality to create a new trip
 myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
   var ref = new Firebase("https://sbv15.firebaseio.com/");
   var itineraryRef  = ref.child('itinerary');
-  $scope.itinerarys = $firebaseArray(itineraryRef);//users
-  $scope.currentItinerary = '';
+  $scope.itinerarys = $firebaseObject(itineraryRef);//users
+
+  itineraryRef.once('value',function(snapshot){
+      snapshot.forEach(function(id){ //gets every itinerary object
+        console.log('new',id.val());
+      });
+  });
   $scope.$watch(function () { return Data.getUserId(); }, function (newValue, oldValue) {
         if (newValue !== oldValue) $scope.userId = newValue;
   });
@@ -122,38 +130,28 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
         if (newValue !== oldValue) Data.setItinerary(newValue);
     });
   $scope.createNewItinerary = function(){
-  		$scope.itinerary = $scope.itineraryId;
-  		$scope.itinerarys.$add({
+  		$scope.itinerarys[$scope.itineraryId] = {
   			id: $scope.itineraryId
-  		});
-  		$scope.currentItinerary = $scope.itinerarys.length - 1;
-  		console.log('test',$scope.currentItinerary);
+  		};
+      $scope.itinerarys.$save();
+  		//$scope.currentItinerary = $scope.itinerarys.length - 1;
   };
 
-  
-})
+  $scope.selectItinerary = function(){
+      //set global scope so we no witch is currently being worked on  $scope.currentItinerary = '';
+  };  
+});
 
 
 
 
 // Content Controller
+//this controller will be user for searching for new items
 myApp.controller('ContentController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
   $scope.$watch(function () { return Data.getUserId(); }, function (newValue, oldValue) {
         if (newValue !== oldValue) $scope.userId = newValue;
   });
   var baseUrl = 'https://api.spotify.com/v1/search?type=track&query='
-
-/*
-    //post: adds tack to playlist
-  $scope.like =function(track){
-        alert('Your track has been added');
-        $scope.playlist.$add({track});
-  }  
-
-   //post: adds tack to playlist
-  $scope.remove =function(track){
-        $scope.playlist.$remove(track);
-  } */
 
   //post: gets tracks
   $scope.getSongs = function() {
@@ -187,9 +185,21 @@ myApp.controller('TripController', function($scope, $http, $firebaseAuth, $fireb
 
 
 // About Controller
+// this control will have all the itineraries items to display
+// and the ability to create a new item 
 myApp.controller('AboutController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
   $scope.$watch(function () { return Data.getUserId(); }, function (newValue, oldValue) {
         if (newValue !== oldValue) $scope.userId = newValue;
   });
   $scope.about = "Some info"
+
+/*
+for (var property in object) {
+    if (object.hasOwnProperty(property)) {
+        // do stuff
+    }
+}
+design preference : http://getbootstrap.com/javascript/#tabs
+*/
+
 })
