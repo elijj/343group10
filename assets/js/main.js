@@ -3,6 +3,9 @@ Written by: Eli Jackson
 notes 
 linkes:
 http://stackoverflow.com/questions/21919962/share-data-between-angularjs-controllers
+https://thinkster.io/a-better-way-to-learn-angularjs/services
+factory links ^^
+
 https://www.firebase.com/docs/web/guide/saving-data.html
 https://www.firebase.com/blog/2013-10-01-queries-part-one.html#byid
 */
