@@ -34,7 +34,7 @@
 			Group Size
 			<input name="size" class="searching" placeholder="1" ng-model="size"> </input>
 			
-			<button ng-disabled="searchForm.search.$invalid" class="btn btn-primary" ng-click="getEvent()" type="submit"> Search </button>
+			<button ng-disabled="searchForm.search.$invalid" class="btn btn-primary" ng-click="searchEvent()" type="submit"> Search </button>
 		</form>
 
 		<!-- Event Result-->
@@ -42,11 +42,11 @@
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="eventsSearchResult">
-					<div ng-repeat="searchedEvent in searchedEvents" title="{{searchedEvent.name.text}}">
-						{{searchedEvent.log.url}}
+					<div ng-repeat="searchedEvent in searchedEvents | filter: capacity < size" title="{{searchedEvent.name.text}}">
 						<img class="logo" src="{{searchedEvent.logo.url}}"> 
 						<h3>{{searchedEvent.name.text}}</h3>
-						<p>{{searchedEvent.description.text}}</p>
+						<div id="description{{searchedEvent.id}}" ng-change="getDescription(description{{searchedEvent.id}}, {{searchedEvent.description.html}})">
+						</div>
 
 						
 					</div>

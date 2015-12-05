@@ -42,7 +42,9 @@ var myCtrl = myApp.controller('myCtrl', function($scope, $http, $firebaseAuth, $
 			$scope.searchedEvents = response.events;
 		})
 	}
-
+	$scope.getDescription = function(numb, tag) {
+		$('#numb').append(tag);
+	}
 	$scope.addEvent = function(selectedId){
 		$scope.events.$add({
 			//ID or title& descriptions?
@@ -50,7 +52,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope, $http, $firebaseAuth, $
 			eventId: selectedId,
 			tripId: $scope.tripId,
 			likes: 0,
-			dislikes: 0
+			dislikes: 0,
 		})
 	}
 
