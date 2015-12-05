@@ -14,17 +14,38 @@
         </div>
     </div>
 
-    <div ng-show = "itinerary">
+    <div ng-show = "currentItinerary">
     	<div class="form-group">
-                <label>Itinerary Id:</label>
-                <input name="itineraryId" class="form-control" ng-model="itineraryId" value = "{{itineraryId}}">
-                {{currentItinerary}}
+                <label>Itinerary Id:{{itineraries[currentItinerary].id}} events : </label>
+                <table>
+                <tr ng-repeat="(key,value) in itineraries[currentItinerary].events ">
+                    <td> {{key}} </td> <td> {{ value }} </td>
+                </tr>  
+                </table>  
         </div>
+        <div class="form-group">
+                <h4>Add New Item (need to add default inputs)</h4>
+                <label>Add New Label</label>
+                <input name="itemLabel" class="form-control" ng-model="itemLabel">
+                <label>Add New Value</label>
+                <input name="itemValue" class="form-control" ng-model="itemValue">
+                <!-- Add an error message if the length is too short -->
+                <button ng-click="addNewItem()" class="btn btn-success">Add</button>
+        </div>
+
+        <div class="form-group">
+                <label>Search:</label>
+                <input name="query" class="form-control" ng-model="query">
+                <button ng-click="createNewItinerary()" class="btn btn-success">Search</button>
+        </div>
+
     </div>
     <ul>
     	<li>Create a new Itinerary</li>
     	<li>Choose already created itineray</li>
     	<li>Information fields</li>
     </ul>
-
+    <ul>
+        <li ng-repeat="(key,value) in itineraries">{{value.id}} <button ng-click="selectItinerary(key)" class="btn btn-success">Select</button></li>
+    </ul>
 </div>

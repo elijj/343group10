@@ -40,14 +40,16 @@ var myApp = angular.module('myApp', ['ui.router','firebase'])
 myApp.factory('Data', function () {
     var data = { userId: '',
     		 authObj : '',
-    		 itineraryIndex : '',
-    		 ref : '' }; //wat do for ref?
+    		 currentItinerary : '',
+    		 ref : '', //firebase ref
+
+    }; 
    return {
         getUserId: function () {
             return data.userId;
         },
-        setItinerary: function (index) {
-            data.itineraryIndex = index;
+        setItinerary: function (id) {
+            data.currentItinerary = id;
         }
     };
 });
@@ -57,12 +59,12 @@ myApp.factory('Data', function () {
 //global controller 
 //This controler controls user log ins
 var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseObject,Data) {
-	var ref = new Firebase("https://sbv15.firebaseio.com/");
+	var ref = new Firebase("https://ourtrip.firebaseio.com/");
   	Data.ref = ref;
   	var userRef  = ref.child('user');
-  	ref.child('itinerary').orderByKey().on("child_added", function(snapshot) {
+  	/*ref.child('itinerary').orderByKey().on("child_added", function(snapshot) {
 	  //console.log(snapshot.key());
-	});
+	});*/
     $scope.users = $firebaseObject(userRef);//users
   	$scope.authObj = $firebaseAuth(ref);
   	// Test if already logged in
@@ -117,32 +119,32 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 // Home Controller
 // this controller will control displays and functionality to create a new trip
 myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
-  var ref = new Firebase("https://sbv15.firebaseio.com/");
-  var itineraryRef  = ref.child('itinerary');
-  $scope.itinerarys = $firebaseObject(itineraryRef);//users
-
-  itineraryRef.once('value',function(snapshot){
-      snapshot.forEach(function(id){ //gets every itinerary object
-        console.log('new',id.val());
-      });
-  });
-  $scope.$watch(function () { return Data.getUserId(); }, function (newValue, oldValue) {
-        if (newValue !== oldValue) $scope.userId = newValue;
-  });
-  $scope.$watch('currentItinerary', function (newValue, oldValue) {
-        if (newValue !== oldValue) Data.setItinerary(newValue);
-    });
+  $scope.itineraries = $firebaseArray(Data.ref.child('itinerary'));//loads all interary objects in firebase **** NEEDS TO BE FOR USER
+  $scope.currentItinerary = Data.currentItinerary;
+  //post: new itinerary array item currented with userId attribute = to userId of the user signed in
   $scope.createNewItinerary = function(){
-  		$scope.itinerarys[$scope.itineraryId] = {
-  			id: $scope.itineraryId
-  		};
-      $scope.itinerarys.$save();
-  		//$scope.currentItinerary = $scope.itinerarys.length - 1;
+    //check if user has made id before?
+  		$scope.itineraries.$add({
+  			id: $scope.itineraryId,
+        userId : Data.userId,
+        events : {count : 0}
+  		}).then(function(ref) {
+        $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
+      });
   };
-
-  $scope.selectItinerary = function(){
-      //set global scope so we no witch is currently being worked on  $scope.currentItinerary = '';
-  };  
+  //post: the selection for the itinerary to work on is changed and the model is updated.
+  $scope.selectItinerary = function(id){
+      Data.setItinerary(id);//set global scope so we no witch is currently being worked on  $scope.currentItinerary = '';
+      $scope.currentItinerary = id;
+  };
+  $scope.addNewItem =function(){
+      //check the label******
+      $scope.itineraries[$scope.currentItinerary].events[$scope.itemLabel] = $scope.itemValue;
+      $scope.itineraries[$scope.currentItinerary].events.count++;
+      $scope.itineraries.$save($scope.currentItinerary).then(function(ref){
+        console.log(ref.key == $scope.itineraries[$scope.currentItinerary].$id);
+      });
+  };     
 });
 
 
