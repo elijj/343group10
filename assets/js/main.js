@@ -120,14 +120,35 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 // this controller will control displays and functionality to create a new trip
 myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
   $scope.itineraries = $firebaseArray(Data.ref.child('itinerary'));//loads all interary objects in firebase **** NEEDS TO BE FOR USER
+  $scope.events = Data.ref.child('events');
   $scope.currentItinerary = Data.currentItinerary;
+  $scope.currentUser = Data.userId;
+  $scope.itineraryPassword = "";
+  $scope.itineraryDesc = "";
+  $scope.itineraryLocation = "";
+  $scope.itineraryDate = "";
+  $scope.itineraryTitle = "";
+  $scope.itineraryImage = "";
+  $scope.eventDescription = "";
+  $scope.eventLocation = "";
+  $scope.eventDate = "";
+  $scope.eventTitle = "";
+  $scope.eventImage = "";
+  $scope.eventPrivacy = "";
+  $scope.eventPrice = 0;
+
   //post: new itinerary array item currented with userId attribute = to userId of the user signed in
   $scope.createNewItinerary = function(){
-    //check if user has made id before?
   		$scope.itineraries.$add({
-  			id: $scope.itineraryId,
-        userId : Data.userId,
-        events : {count : 0}
+  			creatorId : Data.userId,
+        password : $scope.itineraryPassword,
+        Description : $scope.itineraryDesc,
+        location : $scope.itineraryLocation,
+        date : $scope.itineraryDate,
+        title : $scope.itineraryTitle,
+        image : $scope.itineraryImage,
+        contributors : {count:0},
+        events : {count:0}
   		}).then(function(ref) {
         $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
       });
@@ -139,15 +160,33 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
   };
   $scope.addNewItem =function(){
       //check the label******
-      $scope.itineraries[$scope.currentItinerary].events[$scope.itemLabel] = $scope.itemValue;
-      $scope.itineraries[$scope.currentItinerary].events.count++;
+      // ensure not "userId"
+      $scope.itineraries[$scope.currentItinerary][$scope.itemLabel] = $scope.itemValue;
+      //$scope.itineraries[$scope.currentItinerary].events.count++; counter
       $scope.itineraries.$save($scope.currentItinerary).then(function(ref){
         console.log(ref.key == $scope.itineraries[$scope.currentItinerary].$id);
       });
-  };     
+  }; 
+  $scope.createNewEvent = function(){
+      $scope.events.$add({
+        creatorId : Data.userId,
+        desc : eventDescription,
+        location : eventLocation,
+        date : eventDate,
+        title : eventTitle,
+        image : eventImage ,
+        privacy : eventPrivacy,
+        price : eventPrice,
+        votes : {count : 0},
+        used : 1
+      }).then(function(ref) {
+        // add to itinerary $scope.selectItinerary[currentItinerary]$scope.itineraries.$indexFor(ref.key()));
+      });
+  };
+
 });
 
-
+//time stamp : Firebase.ServerValue.TIMESTAMP
 
 
 // Content Controller

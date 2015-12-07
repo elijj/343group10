@@ -1,30 +1,53 @@
 <!-- home.html -->
 <div>
-	<span ng-bind="userId"></span>
-    <p>This is will be where Itinerary Information will go.
-    </p>
     <div ng-show = "!itinerary">
+        if theres no itin
     	<div class="form-group">
                 <h4>Create New Itinerary</h4>
-                <label>Itinerary Id:</label>
-                <input name="itineraryId" class="form-control" ng-model="itineraryId" ng-minlength="1" required>
+
+                <label>Itinerary Title:</label>
+                <input name="itineraryTitle" class="form-control" ng-model="itineraryTitle" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Itinerary Location:</label>
+                <input name="itineraryLocation" class="form-control" ng-model="itineraryLocation" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Itinerary Description:</label>
+                <input name="itineraryDesc" class="form-control" ng-model="itineraryDesc" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Itinerary Date (needs bootstrap element):</label>
+                <input name="itineraryDate" class="form-control" ng-model="itineraryDate" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Itinerary Image (how should we do this?):</label>
+                <input name="itineraryImage" class="form-control" ng-model="itineraryImage" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Itinerary Password (how should we do this?):</label>
+                <input name="itineraryPassword" class="form-control" ng-model="itineraryPassword" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
                 <!-- Add an error message if the length is too short -->
+                ((need form checkers))
                 <button ng-click="createNewItinerary()" class="btn btn-success">Create</button>
         </div>
+        end if no itin
     </div>
 
     <div ng-show = "currentItinerary">
+        if theres is a itin
     	<div class="form-group">
-                <label>Itinerary Id:{{itineraries[currentItinerary].id}} events : </label>
+                <label>Itinerary Title:{{itineraries[currentItinerary].title}} attributes : </label>
                 <table>
-                <tr ng-repeat="(key,value) in itineraries[currentItinerary].events ">
+                <tr ng-repeat="(key,value) in itineraries[currentItinerary] ">
                     <td> {{key}} </td> <td> {{ value }} </td>
                 </tr>  
                 </table>  
         </div>
         <div class="form-group">
-                <h4>Add New Item (need to add default inputs)</h4>
+                <h4>Add new attribute to </h4>
                 <label>Add New Label</label>
                 <input name="itemLabel" class="form-control" ng-model="itemLabel">
                 <label>Add New Value</label>
@@ -33,19 +56,64 @@
                 <button ng-click="addNewItem()" class="btn btn-success">Add</button>
         </div>
 
+
+        <button ng-show="!currentItinerary.link" ng-click="createLink()" class="btn btn-success">Create link</button>
         <div class="form-group">
                 <label>Search:</label>
                 <input name="query" class="form-control" ng-model="query">
-                <button ng-click="createNewItinerary()" class="btn btn-success">Search</button>
+                <button ng-model="search" class="btn btn-success">Search</button>
+                label>
+                <table>
+                <tr ng-repeat="(key,value) in events | filter : search">
+                    <td> {{key}} </td> <td> {{ value }} </td>
+                </tr>  
+                </table> 
         </div>
 
+        <h4>Create New Event</h4>
+
+                <label>Event Title:</label>
+                <input name="eventTitle" class="form-control" ng-model="eventTitle" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Event Location:</label>
+                <input name="eventLocation" class="form-control" ng-model="eventLocation" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Itinerary Description:</label>
+                <input name="eventDescription" class="form-control" ng-model="eventDescription" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Event Date (needs bootstrap element):</label>
+                <input name="eventDate" class="form-control" ng-model="eventDate" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Event Image (how should we do this?):</label>
+                <input name="eventImage" class="form-control" ng-model="eventImage" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Event Price (how should we do this?):</label>
+                <input name="eventPrice" class="form-control" ng-model="eventPrice" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <div class="radio">
+                  <label><input type="radio" name="optradio">Public</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="eventPrivacy" ng-model="eventPrivacy">Private</label>
+                </div>
+
+                <!-- Add an error message if the length is too short -->
+                ((need form checkers))
+                <button ng-click="createNewEvent()" class="btn btn-success">Create</button>
+
+
+        end if theres is a itin
     </div>
+
+    this is list of all current users itins (possibly add serach filter input)
     <ul>
-    	<li>Create a new Itinerary</li>
-    	<li>Choose already created itineray</li>
-    	<li>Information fields</li>
-    </ul>
-    <ul>
-        <li ng-repeat="(key,value) in itineraries">{{value.id}} <button ng-click="selectItinerary(key)" class="btn btn-success">Select</button></li>
+        <li ng-repeat="(key,value) in itineraries | filter: value.userId = currentUser ">{{value.title}} ((these all need modals)) <button ng-click="selectItinerary(key)" class="btn btn-success">Select</button>
+        </li>
     </ul>
 </div>
