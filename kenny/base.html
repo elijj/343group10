@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<html ng-app="myApp">
+
 <head>
 
-  <title>Kenny's INFO 343 Portfolio</title>
+  <title>Itinerary Builder</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -15,5 +17,24 @@
 
   <!-- Connects my files -->
   <link href = "css/style.css" rel="stylesheet" type ="text/css"/>
+  <script src="js/multipagearchitecture.js"></script>
 
 </head>
+
+<body>
+  
+  <nav class="navbar navbar-fixed-top" id="navbar">
+    <img src="img/globe.png">
+    <p>Itinerary Builder</p>
+    <ul>
+      <li><a ui-sref="discover">Discover</a></li>
+      <li><a ui-sref="trips">Your Trips</a></li>
+      <li class="signout"><a href="index.html">Sign Out</a></li>
+    </ul>
+  </nav>
+
+  <div class="container page">
+    <div ui-view></div>
+  </div>
+  
+</body>

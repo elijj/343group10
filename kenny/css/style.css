@@ -1,14 +1,51 @@
 body {
 	font-family: 'Proxima Nova', 'Open Sans', sans-serif;
 	font-weight: 200;
-	max-width: 960px;
 	color: #4A4A4A;
 	background-color: #EEEEEE; 
+}
+
+.pagecontent {
+	max-width: 960px;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 nav img {
 	height: 34px;
 	width: 34px;
+	margin-top: 8px;
+	margin-left: 250px;
+	margin-right: 14px;
+}
+
+.signout {
+	margin-right: 250px;
+}
+
+nav img, nav p {
+	float: left;
+}
+
+nav p {
+	margin-top: 12px;
+}
+
+nav ul {
+	list-style-type: none;
+	float: right;
+	margin-top: 8px;
+	font-size: 16pt;
+}
+
+nav ul li {
+	display: inline;
+	margin-right: 32px;
+}
+
+nav a, nav a:hover {
+	color: #ffffff;
+	text-decoration: none;
 }
 
 nav {
@@ -82,6 +119,23 @@ button {
 	width: 620px;
 	height: 90px;
 	padding: 18px;
+}
+
+/* Login page */
+#loginpage {
+	height: 100vh;
+	width: 100vw;
+	background: #332238;
+	color: #ffffff;
+	padding-top: 10%;
+}
+
+#loginpage img {
+	height: 100px;
+	width: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
 }
 
 
