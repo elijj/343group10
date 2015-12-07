@@ -62,11 +62,7 @@
                 <label>Search:</label>
                 <input name="query" class="form-control" ng-model="query">
                 <button ng-model="search" class="btn btn-success">Search</button>
-                <table>
-                <tr ng-repeat="(key,value) in events | filter : search">
-                    <td> {{key}} </td> <td> {{ value }} </td>
-                </tr>  
-                </table> 
+                
         </div>
 
         <h4>Create New Event</h4>
