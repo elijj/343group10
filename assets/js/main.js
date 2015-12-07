@@ -147,29 +147,39 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
         date : $scope.itineraryDate,
         title : $scope.itineraryTitle,
         image : $scope.itineraryImage,
+        addedTime : Firebase.ServerValue.TIMESTAMP,
         contributors : {count:0},
         events : {count:0}
   		}).then(function(ref) {
         $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
       });
   };
+
   //post: the selection for the itinerary to work on is changed and the model is updated.
   $scope.selectItinerary = function(id){
       Data.setItinerary(id);//set global scope so we no witch is currently being worked on  $scope.currentItinerary = '';
       $scope.currentItinerary = id;
   };
+
+  //post: adds new item to object
   $scope.addNewItem =function(){
-      //check the label******
-      // ensure not "userId"
-      $scope.itineraries[$scope.currentItinerary][$scope.itemLabel] = $scope.itemValue;
-      //$scope.itineraries[$scope.currentItinerary].events.count++; counter
-      $scope.itineraries.$save($scope.currentItinerary).then(function(ref){
-        console.log(ref.key == $scope.itineraries[$scope.currentItinerary].$id);
-      });
+      if($scope.itemLabel != 'userId'){
+        $scope.itineraries[$scope.currentItinerary][$scope.itemLabel] = $scope.itemValue;
+        //$scope.itineraries[$scope.currentItinerary].events.count++; counter
+        $scope.itineraries.$save($scope.currentItinerary).then(function(ref){
+          console.log(ref.key == $scope.itineraries[$scope.currentItinerary].$id);
+        });
+      } else {
+        alert('Invalid label!');
+      }
   }; 
+
+  //**** doesnt work needs work
+  //post: new event array item currented with userId attribute = to userId of the user signed in
   $scope.createNewEvent = function(){
       $scope.events.$add({
         creatorId : Data.userId,
+        addedTime : Firebase.ServerValue.TIMESTAMP,
         desc : eventDescription,
         location : eventLocation,
         date : eventDate,
@@ -181,42 +191,41 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
         used : 1
       }).then(function(ref) {
         // add to itinerary $scope.selectItinerary[currentItinerary]$scope.itineraries.$indexFor(ref.key()));
+       // var val = $scope.currentItinerary.$push({'events',ref});
+       // $scope.saveAttribute(ref,ref.key(),'event',) 
       });
+  };
+
+  //post: Remove a record from the database and from the local array.
+  //index == attributes name
+  $scope.removeAttribute = function(refrence,index){
+    var list = $firebaseArray(refrence);
+    var item = list[index];
+    list.$remove(item).then(function(ref){
+      ref.key() === item.$id;
+    })
+  };
+
+  //post: This method saves an existing, modified local record back to the database. 
+  //pre: It accepts either an array index or a reference to an item that exists in the array.
+  $scope.saveAttribute = function(refrence,index,val,attr){
+    var list = $firebaseArray(refrence);
+    list[index][attr] = val;
+    list.$save(index).then(function(ref) {
+      ref.key() === list[index].$id; // true
+    });
+
   };
 
 });
 
-//time stamp : Firebase.ServerValue.TIMESTAMP
+
+
 
 
 // Content Controller
 //this controller will be user for searching for new items
 myApp.controller('ContentController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
-  $scope.$watch(function () { return Data.getUserId(); }, function (newValue, oldValue) {
-        if (newValue !== oldValue) $scope.userId = newValue;
-  });
-  var baseUrl = 'https://api.spotify.com/v1/search?type=track&query='
-
-  //post: gets tracks
-  $scope.getSongs = function() {
-    $http.get(baseUrl + $scope.track).success(function(response){
-      data = $scope.tracks = response.tracks.items
-      
-    })
-  }
-  $scope.play = function(song) {
-    if($scope.currentSong == song) {
-      $scope.audioObject.pause()
-      $scope.currentSong = false
-      return
-    }
-    else {
-      if($scope.audioObject.pause != undefined) $scope.audioObject.pause()
-      $scope.audioObject = new Audio(song);
-      $scope.audioObject.play()  
-      $scope.currentSong = song
-    }
-  }
 
 })
 
@@ -227,23 +236,9 @@ myApp.controller('TripController', function($scope, $http, $firebaseAuth, $fireb
 })
 
 
-
 // About Controller
 // this control will have all the itineraries items to display
 // and the ability to create a new item 
 myApp.controller('AboutController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
-  $scope.$watch(function () { return Data.getUserId(); }, function (newValue, oldValue) {
-        if (newValue !== oldValue) $scope.userId = newValue;
-  });
-  $scope.about = "Some info"
-
-/*
-for (var property in object) {
-    if (object.hasOwnProperty(property)) {
-        // do stuff
-    }
-}
-design preference : http://getbootstrap.com/javascript/#tabs
-*/
 
 })

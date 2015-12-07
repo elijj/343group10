@@ -62,7 +62,6 @@
                 <label>Search:</label>
                 <input name="query" class="form-control" ng-model="query">
                 <button ng-model="search" class="btn btn-success">Search</button>
-                label>
                 <table>
                 <tr ng-repeat="(key,value) in events | filter : search">
                     <td> {{key}} </td> <td> {{ value }} </td>
@@ -92,7 +91,7 @@
                 <input name="eventImage" class="form-control" ng-model="eventImage" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
 
-                <label>Event Price (how should we do this?):</label>
+                <label>Event Price (boot strap class):</label>
                 <input name="eventPrice" class="form-control" ng-model="eventPrice" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
 
