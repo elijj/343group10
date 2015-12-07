@@ -120,7 +120,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 // this controller will control displays and functionality to create a new trip
 myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
   $scope.itineraries = $firebaseArray(Data.ref.child('itinerary'));//loads all interary objects in firebase **** NEEDS TO BE FOR USER
-  $scope.events = Data.ref.child('events');
+  $scope.events = $firebaseArray(Data.ref.child('events'));
   $scope.currentItinerary = Data.currentItinerary;
   $scope.currentUser = Data.userId;
   $scope.itineraryPassword = "";
@@ -142,9 +142,9 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
   		$scope.itineraries.$add({
   			creatorId : Data.userId,
         password : $scope.itineraryPassword,
-        Description : $scope.itineraryDesc,
+        description : $scope.itineraryDesc,
         location : $scope.itineraryLocation,
-        date : $scope.itineraryDate,
+        startDate : $scope.itineraryDate,
         title : $scope.itineraryTitle,
         image : $scope.itineraryImage,
         addedTime : Firebase.ServerValue.TIMESTAMP,
@@ -170,7 +170,9 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
           console.log(ref.key == $scope.itineraries[$scope.currentItinerary].$id);
         });
       } else {
-        alert('Invalid label!');
+        bootbox.alert('Invalid label!',function(){
+          $scope.itemLabel = "";
+        });
       }
   }; 
 
@@ -180,19 +182,20 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
       $scope.events.$add({
         creatorId : Data.userId,
         addedTime : Firebase.ServerValue.TIMESTAMP,
-        desc : eventDescription,
-        location : eventLocation,
-        date : eventDate,
-        title : eventTitle,
-        image : eventImage ,
-        privacy : eventPrivacy,
-        price : eventPrice,
+        desc : $scope.eventDescription,
+        location : $scope.eventLocation,
+        date : $scope.eventDate,
+        title : $scope.eventTitle,
+        image : $scope.eventImage ,
+        //privacy : $scope.eventPrivacy,
+        price : $scope.eventPrice,
+        start : $scope.eventStart ,
+        end : $scope.eventEnd ,
         votes : {count : 0},
         used : 1
       }).then(function(ref) {
-        // add to itinerary $scope.selectItinerary[currentItinerary]$scope.itineraries.$indexFor(ref.key()));
-       // var val = $scope.currentItinerary.$push({'events',ref});
-       // $scope.saveAttribute(ref,ref.key(),'event',) 
+        $scope.saveAttribute(Data.ref.child('itinerary/'+$scope.currentItinerary),'events',$scope.itineraries[$scope.currentItinerary].events.count, ref.key()); 
+        $scope.saveAttribute($scope.itineraries[$scope.currentItinerary].events,'count',$scope.itineraries[$scope.currentItinerary].events.count+1);//incriment
       });
   };
 
@@ -208,13 +211,16 @@ myApp.controller('HomeController', function($scope, $http, $firebaseAuth, $fireb
 
   //post: This method saves an existing, modified local record back to the database. 
   //pre: It accepts either an array index or a reference to an item that exists in the array.
-  $scope.saveAttribute = function(refrence,index,val,attr){
-    var list = $firebaseArray(refrence);
-    list[index][attr] = val;
-    list.$save(index).then(function(ref) {
-      ref.key() === list[index].$id; // true
+  $scope.saveAttribute = function(ref,key,attr,val){
+    var list = $firebaseArray(ref);
+    list[key][attr] = val;
+    list.$save(key).then(function(ref) {
+      console.log(ref.key() === list[key].$id); // true
     });
+  };
 
+  $scope.currentDate = function(){
+    //pulls last event from current itinerary
   };
 
 });

@@ -17,7 +17,7 @@
                 <input name="itineraryDesc" class="form-control" ng-model="itineraryDesc" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
 
-                <label>Itinerary Date (needs bootstrap element):</label>
+                <label>Itinerary Start Date (needs bootstrap element):</label>
                 <input name="itineraryDate" class="form-control" ng-model="itineraryDate" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
 
@@ -65,7 +65,7 @@
                 
         </div>
 
-        <h4>Create New Event</h4>
+        <h4>Create New Event (check current itinerary for latest date</h4>
 
                 <label>Event Title:</label>
                 <input name="eventTitle" class="form-control" ng-model="eventTitle" ng-minlength="1" required>
@@ -86,9 +86,17 @@
                 <label>Event Image (how should we do this?):</label>
                 <input name="eventImage" class="form-control" ng-model="eventImage" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
-
+                
                 <label>Event Price (boot strap class):</label>
                 <input name="eventPrice" class="form-control" ng-model="eventPrice" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Event Start (boot strap class):</label>
+                <input name="eventStart" class="form-control" ng-model="eventStart" ng-minlength="1" required>
+                <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
+
+                <label>Event End (boot strap class):</label>
+                <input name="eventEnd" class="form-control" ng-model="eventEnd" ng-minlength="1" required>
                 <p ng-show="myForm.itineraryId.$error.minlength" class="help-block">Itinerary Id is invalid.</p>
 
                 <div class="radio">
