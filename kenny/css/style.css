@@ -28,7 +28,7 @@ nav img, nav p {
 }
 
 nav p {
-	margin-top: 12px;
+	margin-top: 15px;
 }
 
 nav ul {
@@ -43,7 +43,7 @@ nav ul li {
 	margin-right: 32px;
 }
 
-nav a, nav a:hover {
+nav a, nav a:hover, nav a:focus {
 	color: #ffffff;
 	text-decoration: none;
 }
@@ -60,6 +60,7 @@ nav {
 h1 {
 	font-size: 35pt;
 	line-height: 42pt;
+	margin-top: 80px;
 }
 
 h2 {
@@ -89,8 +90,8 @@ h6 {
 }
 
 p {
-	font-size: 16pt;
-	line-height: 20pt;
+	font-size: 13pt;
+	line-height: 17pt;
 }
 
 .textfield {
@@ -104,6 +105,10 @@ button {
 	box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.26), 0px 1px 1px 0px rgba(0,0,0,0.16);
 	border-radius: 3px;
 	color: #ffffff;
+	border: 0px solid;
+	height: 34px;
+	padding-left: 25px;
+	padding-right: 25px;
 }
 
 .eventcard {
@@ -111,14 +116,34 @@ button {
 	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.26), 0px 0px 1px 0px rgba(0,0,0,0.16);
 	border-radius: 3px;
 	padding: 28px;
-	width: 620px;
-	height: 442px;
+	width: 516px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .tripcard { 
 	width: 620px;
-	height: 90px;
 	padding: 18px;
+	background: #FFFFFF;
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.26), 0px 0px 1px 0px rgba(0,0,0,0.16);
+	border-radius: 3px;
+	margin-top: 15px;
+}
+
+.center {
+	margin-left: auto; 
+	margin-right: auto;
+	width: fit-content;
+	display: block;
+}
+
+.block {
+	display: block;
+}
+
+input {
+	height: 36px;
+	padding-left: 15px;
 }
 
 /* Login page */
@@ -127,10 +152,10 @@ button {
 	width: 100vw;
 	background: #332238;
 	color: #ffffff;
-	padding-top: 10%;
+	padding-top: 15%;
 }
 
-#loginpage img {
+.loginglobe {
 	height: 100px;
 	width: 100px;
 	margin-left: auto;
@@ -138,6 +163,88 @@ button {
 	display: block;
 }
 
+.fb {
+	max-width: 195px;
+	max-height: 38px;
+	margin-top: 20px;
+}
 
+/* Discover page */
+#discoverpage {
+	margin-left: 250px;
+}
 
+.featured {
+	margin-top: 35px;
+}
 
+#tripspage {
+	margin-left: 250px;
+}
+
+#tripspage h4 {
+	margin-top: 80px;
+}
+
+#tripspage h1 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#tripspage .search {
+	float: left;
+	margin-right: 20px;
+}
+
+#tripspage .dropdown {
+	float: left;
+	margin-right: 20px;
+}
+
+.tripcard h3 {
+	margin-top: 0px;
+}
+
+.tripcard h6 {
+	margin-bottom: 0px;
+}
+
+#tripspage a, #tripspage a:hover {
+	color: #4A4A4A;
+	text-decoration: none;
+}
+
+/* trip page */
+.trippage {
+	margin-left: 250px;
+}
+
+.trippage .dropdown {
+	float: left;
+	margin-right: 20px;
+}
+
+.trippage .search {
+	float: left;
+	margin-right: 20px;
+}
+
+.trippage h1 {
+	margin-bottom: 0px;
+}
+
+.trippage h3 {
+	margin-top: 10px;
+}
+
+.up, .down {
+	height: 3%;
+	width: 3%;
+	float: left;
+	margin-right: 5px;
+}
+
+.upnum, .downnum {
+	float: left;
+	margin-right: 10px;
+}

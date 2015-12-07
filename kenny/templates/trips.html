@@ -1,14 +1,27 @@
-<div id="trips">
+<div id="tripspage">
   <h4>Welcome, Kenny</h4>
   <h1>Your Trips</h1>
 
-  <input>Search</input>
-  <input>Sort by</input>
+  <input class="search" placeholder="Search"></input>
+  
+  <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Sort by
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="base.html?#/trips">Name</a></li>
+    <li><a href="base.html?#/trips">Date</a></li>
+  </ul>
+</div>
+
   <button>Add Trip</button>
 
-  <div class="tripcard">
-    <h3>Trip Name</h3>
-    <h5>Date</h5>
-    <h6>People</h6>
-  </div>
+  <a href="base.html#/trip">
+    <div class="tripcard">
+      <h3>Trip Name</h3>
+      <h5>Date</h5>
+      <h6>People</h6>
+    </div>
+  </a>
 </div>
