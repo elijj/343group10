@@ -1,42 +1,11 @@
-<div id="tripspage">
-  <h4>Welcome <span ng-bind="users[currentUser].email"></span>,</h4>
-  <h1>Your Trips</h1>
-
-  <input type="text" class="form-control" ng-model="search">
-  
-  <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Sort by
-    <span class="caret"></span>
-  </button>
-
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#" ng-click="sortType='title'">Name</a></li>
-    <li><a href="#" ng-click="sortType='date'">Date</a></li>
-  </ul>
-</div>
-
-  <a href="base.html#/trip">
-    <div class="tripcard">
-      <h3>Trip Name</h3>
-      <h5>Date</h5>
-      <h6>People</h6>
-    </div>
-  </a>
-
-    <!-- list of itins need filter and ng-repeat for each items -->
-    <table>
-    <tr ng-repeat="(key,value) in itineraries | orderBy : value.title |filter : value.creatorId = currentUser">
-            <td>{{value.title}}<button ng-click="selectItinerary(key)" class="btn btn-success">Select</button></td>
-            
-   </tr>
-    </table>
-
-        <!-- end of list -->
-
-
-    <!--creat itin -->
-     <form ng-show = "!currentItinerary" name="itineraryForm" novalidate >
+if theres no itin
+<div class="container">
+    this is list of all current users itins (possibly add serach filter input)
+    <ul>
+        <li ng-repeat="(key,value) in itineraries | filter: value.userId = currentUser ">{{value.title}} ((these all need modals)) <button ng-click="selectItinerary(key)" class="btn btn-success">Select</button>
+        </li>
+    </ul>
+    <form ng-show = "!itinerary" ng-show='!userId' name="itineraryForm" novalidate >
         <h4>Create New Itinerary</h4>
         <div class="form-group">
             <label>Itinerary Title:</label>
@@ -68,18 +37,17 @@
             <input type="password" name="itineraryPassword" class="form-control" ng-model="itineraryPassword" ng-minlength="1" required>
             <p ng-show="itineraryForm.itineraryPassword.$error.minlength" class="help-block">Itinerary password is invalid.</p>
         </div>
-        <!-- ng-disabled="itineraryForm.$invalid"  Add an error message if the length is too short -->
+        <!-- Add an error message if the length is too short ng-disabled="itineraryForm.$invalid" -->
         <div class="form-group">
-            <button ng-click="createNewItinerary()" class="btn btn-success">Create</button>
+            <button  ng-click="createNewItinerary()" class="btn btn-success">Create</button>
         </div>
     </form>
-    <!-- end of create itin -->
+</div>
+end if no itin
 
-
-    <!-- if there is a itin display -->
-    <div ng-show = "currentItinerary">
-
-    <div class="form-group">
+<div ng-show = "currentItinerary">
+    if theres is a itin
+	<div class="form-group">
         <label>Itinerary Title:{{itineraries[currentItinerary].title}} attributes : </label>
         <table>
             <tr ng-repeat="(key,value) in itineraries[currentItinerary] ">
@@ -87,13 +55,27 @@
             </tr>  
         </table>  
     </div>
+    <div class="form-group">
+        <h4>Add new attribute to </h4>
+        <label>Add New Label</label>
+        <input name="itemLabel" class="form-control" ng-model="itemLabel">
+        <label>Add New Value</label>
+        <input name="itemValue" class="form-control" ng-model="itemValue">
+        <!-- Add an error message if the length is too short -->
+        <button ng-click="addNewItem()" class="btn btn-success">Add</button>
+    </div>
+
+
     <button ng-show="!currentItinerary.link" ng-click="createLink()" class="btn btn-success">Create link</button>
-    <!-- end of itin display -->
-    
+    <div class="form-group">
+        <label>Search:</label>
+        <input name="query" class="form-control" ng-model="query">
+        <button ng-model="search" class="btn btn-success">Search</button>                      
+    </div>
 
 
-
-       <!-- start of form group -->
+    <div class="container">
+        <form ng-show = "!itinerary" ng-show='!userId' name="eventForm" novalidate >
             <div class="form-group">
                 <h4>Create New Event (check current itinerary for latest date</h4>
                 <label>Event Title:</label>
@@ -144,24 +126,14 @@
                 </div>
             </div>
 
-            <!-- list of user created attribute -->
-            <!-- <ul ng-show="userMadeObj">
-              <li ng-repeat="(key,value) in userMadeObj"> {{key}} : {{value}}<li>
-            </ul>
-            end of list of user created attribute  -->
+                <!-- Add an error message if the length is too short -->
+                ((need form checkers))
+                <button ng-click="createNewEvent()" class="btn btn-success">Create</button>
 
-            <!-- create more input form 
-            <div class="form-group">
-              <h4>Add new attribute to </h4>
-              <label>Add New Label</label>
-              <input name="itemLabel" class="form-control" ng-model="itemLabel">
-              <label>Add New Value</label>
-              <input name="itemValue" class="form-control" ng-model="itemValue">
-              <button ng-click="addNewItem()" class="btn btn-success">Add</button>
-          </div>
-          end of add form -->
-          
-          <button ng-click="createNewEvent()" class="btn btn-success">Create</button>
-</div><!-- end of ng-show currentItin-->
-<!-- end -->
+
+            end if theres is a itin
+</div>
+
+    
+</div>
 </div>
