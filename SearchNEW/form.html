@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search for Events</title>
+
+    <!-- libraries -->
+     <!--<script src="angular.js"></script>
+    <script src="angular-ui-bootstrap-modal.js"></script>-->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+
+    <!--Scripts-->
+    <script src="eventbrite.js"></script>
+
+</head>
+<body>
+    <!-- Initiate -->
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <form class="container" name="searchForm">
+            <input name="nameofEvent" class="searching" placeholder="Name of Event" ng-model="eventName"></input>
+
+            <input name="nameofCity" class="searching" placeholder="Name of City" ng-model="city"></input>
+
+            <input name="date" class="searching" placeholder="will have dropdown calendar" ng-model="date"></input>
+
+            <!--Group Size-->
+            <input name="size" class="searching" placeholder="1" ng-model="size"> </input>
+            
+            <button ng-disabled="searchForm.search.$invalid" class="btn btn-primary" ng-click="searchEvent()" type="submit"> Search </button>
+        </form>
+
+        <!-- Event Result-->
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="eventsSearchResult">
+                    <div ng-repeat="searchedEvent in searchedEvents" title="{{searchedEvent.name.text}}">
+                            <img class="logo" src="{{searchedEvent.logo.url}}"> 
+                            <h3>{{searchedEvent.name.text}}</h3>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#myModal">MORE INFO</button>
+                            <!--Modal content -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                            <div class = "modal-dialog">
+                            <div class="modal-content">
+                                <div class="info-body">
+                                    <div class="description">{{searchedEvent.description.html}}</div>
+                                    <p>start time: {{searchedEvent.start.local}}</p>
+                                    <p>end time: {{searchedEvent.end.local}}</p>
+                                    <p>capacity: {{searchedEvent.capacity}}</p>
+                                </div>
+                                <div class="info-footer">
+                                    <button type="button" class="btn btn-default" ng-click="addEvent({{searchedEvent.id}})" data-dismiss="modal" >ADD</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+<!--
+        modal section 
+        <div ng-repeat = "event in clickedEvents"  title="{{clickedEvents.name.text}}">
+            <div modal="clickedModal" close="cancel()">
+            <div class="modal-header">
+                <img class="logo" src="{{event.logo.url}}">
+                <h4>{{event.name.text}}</h4>
+            </div>
+            <div class="modal-body">
+                <h3>{{event.description.html}}</h3>
+                <h3>start time: {{event.start.local}}</h3>
+                <h3>end time: {{event.end.local}}</h3>
+                <h3>capacity: {{event.capacity}}</h3>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="addEvent({{event.id}})">ADD</button>
+                <button class="btn" ng-click="cancel()">Cancel</button>
+            </div>
+            </div>
+        </div>-->
+
+    </div>
+        
+</body>
+</html>

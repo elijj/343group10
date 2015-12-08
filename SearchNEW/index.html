@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=0">
+    <title>Our Trips</title>
+    
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+ 
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+    <!-- Add ui-router library here -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
+     <!-- jQuery -->
+     <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <!-- bootbox -->
+     <script src ="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+    <!-- Custom code -->
+    <script src="assets/js/main.js"></script>
+    <link href = "assets/css/app.css" rel="stylesheet" type = "text/css"/>
+    
+  </head>
+  <body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+      <header>
+
+        <!-- Create links to different sections -->
+          <h1>Our Trip System {{userId}}</h1> 
+          <div>      
+            <a ng-show="userId" class="btn btn-default" ui-sref="discover">Discover</a>
+            <a ng-show="userId"  class="btn btn-default" ui-sref="search">Search</a>
+            <a ng-show="currentTrip" class="btn btn-default" ui-sref="current">Current Trip</a>
+            <a ng-show="userId" class="btn btn-default" ui-sref="trips">Your Trips</a>
+            <button ng-show="userId" ng-click="logOut()" class="btn btn-warning">Logout</button>
+          </div>
+  		</header>
+        
+
+      <div class="container">
+
+        <form ng-show="!userId" name="myForm" novalidate >
+            <!-- Bind model "handle" to this input, set minimum length, and make it required -->
+            <!-- Bind model "email" to this input and make it required -->
+            <div class="form-group">
+                <label>Email:</label>
+                <input name="email" type="email" class="form-control" ng-model="email" required></input>
+                <p ng-show="myForm.email.$error.email" class="help-block">Email is invalid.</p>
+                <!-- Show an error message if the email is not valid -->
+            </div>
+            <!-- Password -->
+            <div class="form-group">
+                <label>Password:</label>
+                <input name="password" type="password" class="form-control" ng-model="password" required></input>
+                <p ng-show="myForm.password.$error.password" class="help-block">Password is invalid.</p>
+            </div>
+            <!-- Submit buttons: should only be active if certain inputs are valid -->
+            <div class="form-group">
+                <button ng-click="signUp()" ng-disabled="myForm.$invalid" type="submit" class="btn btn-primary">Sign-up</button>
+                <button ng-click="signIn()" ng-disabled="myForm.email.$invalid || myForm.password.$invalid" type="submit" class="btn btn-primary">Sign-in</button>
+            </div>
+        </form>
+
+        <div ng-show ="discover" id="discoverpage">
+          <h1>Discover</h1>
+
+          <form>
+            <input placeholder="Event name"></input>
+            <input placeholder="City"></input>
+            <input type="date"></input>
+            <button type="submit">Search</button>
+          </form>
+
+          <h3 class="featured">Featured Events</h3>
+
+          <div class="eventcard">
+            <h3>Event name</h3>
+            <p>Event description</p>
+            <button>Add to Trip</button>
+          </div>
+        </div>
+        <!-- This is where your content will display -->
+        <div ui-view></div>
+      </div>
+<div id="searchPage">    
+    <form>
+        <input name="nameofEvent" class="searching" placeholder="Name of Event" ng-model="eventName"></input>
+
+        <input name="nameofCity" class="searching" placeholder="Name of City" ng-model="city"></input>
+
+        <input name="date" class="searching" placeholder="will have dropdown calendar" ng-model="searchDate"></input>
+
+        <!--Group Size-->
+        <input name="size" class="searching" placeholder="1" ng-model="size"> </input>
+        
+        <button ng-disabled="searchForm.search.$invalid" class="btn btn-primary" ng-click="searchEvent()" type="submit"> Search </button>
+    </form>
+
+        <!-- Event Result-->
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="eventsSearchResult">
+                    <div ng-repeat="searchedEvent in searchedEvents" title="{{searchedEvent.name.text}}">
+                            <img class="logo" src="{{searchedEvent.logo.url}}"> 
+                            <h3>{{searchedEvent.name.text}}</h3>
+                            <button class="btn" ng-click = "info" type="submit">MORE INFO</button>
+                                    <p>{{searchedEvent.description.html}}</p>
+
+                            <!--<div ng-show= "info" ng-hide="!info">
+                                <div class="info-body">
+                                    <p>{{searchedEvent.description.html}}</p>
+                                    <p>start time: {{searchedEvent.start.local}}</p>
+                                    <p>end time: {{searchedEvent.end.local}}</p>
+                                    <p>capacity: {{searchedEvent.capacity}}</p>
+                                    <button class="btn btn-success" ng-click="addEvent({{searchedEvent.id}})">ADD</button>
+                                    <button class="btn" ng-click="info=false">Close</button>
+
+                                </div>
+                                <div class="info-footer">                                </div>
+                            </div>-->
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</div>
+      <!--<footer>
+          <h2>Our Trip</h2>
+      </footer> -->
+    </div>
+  </body>
+</html>
