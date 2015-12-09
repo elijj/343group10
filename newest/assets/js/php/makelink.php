@@ -1,4 +1,0 @@
-//makelink.php
-<?
-
-?>
