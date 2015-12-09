@@ -10,7 +10,7 @@ https://www.firebase.com/docs/web/guide/saving-data.html
 https://www.firebase.com/blog/2013-10-01-queries-part-one.html#byid
 */
 var baseUrl = 'https://www.eventbriteapi.com/v3/events/';
-var myApp = angular.module('myApp', ['ui.router','firebase', 'cgBusy'])
+var myApp = angular.module('myApp', ['ui.router','firebase','ngSanitize'])
 // Configure the app
 .config(function($stateProvider) {
   $stateProvider
@@ -71,7 +71,6 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
     $scope.authObj = $firebaseAuth($scope.ref);
     $scope.itineraries = $firebaseArray($scope.ref.child('itinerary'));//loads all interary objects in firebase **** NEEDS TO BE FOR USER
     $scope.events = $firebaseArray($scope.ref.child('events'));
-
     $scope.currentItinerary = Data.currentItinerary;
     $scope.currentUser = Data.getUserId();
     $scope.itineraryPassword = "";
@@ -83,12 +82,13 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
     $scope.eventDescription = "";
     $scope.eventLocation = "";
     $scope.eventDate = "";
+    $scope.eventDateEnd = "";
     $scope.eventTitle = "";
     $scope.eventImage = "";
     $scope.eventPrivacy = "";
     $scope.eventEnd = "";
     $scope.eventStart = "";
-    $scope.eventPrivacy = "";
+    $scope.eventPrivacy = false;
     $scope.eventPrice = 0;
     $scope.userMadeObj = {};
     //post: new itinerary array item currented with userId attribute = to userId of the user signed in
@@ -113,7 +113,6 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
         Data.setItinerary(id);//set global scope so we no witch is currently being worked on  $scope.currentItinerary = '';
         $scope.currentItinerary = id;
     };
-    //**** doesnt work needs work
     //post: new event array item currented with userId attribute = to userId of the user signed in
     $scope.createNewEvent = function(){
         $scope.events.$add({
@@ -122,9 +121,10 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           desc : $scope.eventDescription,
           location : $scope.eventLocation,
           date : $scope.eventDate,
+          dateEnd : eventDateEnd,
           title : $scope.eventTitle,
           image : $scope.eventImage ,
-          //privacy : $scope.eventPrivacy,
+          privacy : $scope.eventPrivacy,
           price : $scope.eventPrice,
           start : $scope.eventStart ,
           end : $scope.eventEnd ,
@@ -138,7 +138,6 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           $scope.itineraries.$save($scope.currentItinerary).then(function(ref) {
             ref.key() === $scope.itineraries[$scope.currentItinerary].$id; // true
           });
-         //);//incriment itin count
         });
     };
     $scope.createLink = function(){
@@ -163,6 +162,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
       });
       
     }
+    /*
     //luxuries>>>>>>>>>>>>>>>>>>>>>>
     $scope.currentDate = function(){
       //pulls last event from current itinerary
@@ -200,6 +200,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
       })
     };
     //luxuries>>>>>>>>>>>>>>>>>>>>>>
+    */
     // Test if already logged in
     var authData = $scope.authObj.$getAuth();
     if (authData) {
@@ -220,7 +221,9 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
       .then(function(authData) {
         $scope.userId = authData.uid;
         $scope.users[authData.uid] ={
-          handle:$scope.handle
+          handle:$scope.handle,
+          joinDate : Firebase.ServerValue.TIMESTAMP,
+          email : $scope.email,
         }
         $scope.users.$save()
       })
@@ -249,12 +252,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
       Data.userId = false;
       $scope.currentItinerary = false;
     }
-    //end of login functions
 
-// Trip Controller
-// this controller will control displays and functionality to create a new trip
-
-    
 
     $scope.like = function(theEvent) {
         theEvent.likes++;
@@ -284,6 +282,8 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
       if (!duplicate) {
         savingEventId.used = 1;
         savingEventId.addedTime = Firebase.ServerValue.TIMESTAMP;
+        savingEventId.description = savingEventId.description.text;
+        savingEventId.title = savingEventId.name.text;
         savingEventId.votes = {up : 0,
         down : 0};
         $scope.events.$add(savingEventId).then(function(ref) {
@@ -299,14 +299,12 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 // Trip Controller
 // this controller will control displays and functionality to create a new trip
 myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data, $sce){
-  $scope.currentUser = Data.getUserId();
+    $scope.currentUser = Data.getUserId();
   // Search
 
     //Gains data from Eventbrite API with given key, city, and/or date, 
     //and save those data as searchedEvents
     $scope.searchEvent = function() {
-        
-
         var url = baseUrl + 'search/?token=5TSGMBRNEWKIX4ZN6MMA';
         //token gotten from my eventbrite app. We COULD(Not have to) 
         //further develop with giving option to type in their 
@@ -324,10 +322,8 @@ myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $fir
             url += '&start_date.range_end='+ $scope.searchDate + "T23%3A59%3A59Z";
         }
 
-        $scope.myPromise = $http.get(url).success(function(response){
-
+        $http.get(url).success(function(response){
             $scope.searchedEvents = response.events;
-
             angular.forEach($scope.searchedEvents, function(value, key) {
               var sd = new Date(value.start.utc);
               var ed = new Date(value.end.utc);

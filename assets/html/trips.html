@@ -16,13 +16,7 @@
   </ul>
 </div>
 
-  <a href="base.html#/trip">
-    <div class="tripcard">
-      <h3>Trip Name</h3>
-      <h5>Date</h5>
-      <h6>People</h6>
-    </div>
-  </a>
+
 
     <!-- list of itins need filter and ng-repeat for each items -->
     <select multiple class="form-control">
@@ -119,6 +113,11 @@
                 <p ng-show="myForm.eventDate.$error.minlength" class="help-block">Event date is invalid.</p>
             </div>
             <div class="form-group">
+                <label>Event End Date:</label>
+                <input type="date" name="eventDateEnd" class="form-control" ng-model="eventDateEnd" ng-minlength="1" required>
+                <p ng-show="myForm.eventDateEnd.$error.minlength" class="help-block">Event date is invalid.</p>
+            </div>
+            <div class="form-group">
                 <label>Event Image:</label>
                 <input placeholder="http://" name="eventImage" class="form-control" ng-model="eventImage" ng-minlength="1" required>
                 <p ng-show="myForm.eventImage.$error.minlength" class="help-block">Event image is invalid.</p>
@@ -140,7 +139,7 @@
             </div>
             <div class="form-group">
                 <div class="radio">
-                  <label><input type="radio" name="optradio">Public</label>
+                  <label><input type="radio" name="optradio" >Public</label>
                 </div>
                 <div class="radio">
                   <label><input type="radio" name="eventPrivacy" ng-model="eventPrivacy">Private</label>
