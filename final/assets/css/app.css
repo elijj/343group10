@@ -30,12 +30,12 @@ nav img {
 	height: 34px;
 	width: 34px;
 	margin-top: 8px;
-	margin-left: 250px;
+	margin-left: 10%;
 	margin-right: 14px;
 }
 
 .signout {
-	margin-right: 250px;
+	margin-right: 10%;
 }
 
 nav img, nav p {
