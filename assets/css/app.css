@@ -42,6 +42,33 @@ nav img {
 	width: 150px;
 }
 
+.itinimg {
+	width: 50%;
+	height: 50%;
+	margin-bottom: 20px;
+}
+
+.itinval {
+	margin-bottom: 10px;
+}
+
+.formheader {
+	margin-top: 30px;
+}
+
+.eventdesc {
+	margin-top: 30px;
+	margin-bottom: 25px;
+}
+
+.moreinfobutton {
+	margin-top: 15px;
+}
+
+.searchbutton {
+	margin-bottom: 2px;
+}
+
 nav img, nav p {
 	float: left;
 }

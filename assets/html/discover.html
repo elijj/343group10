@@ -18,10 +18,6 @@
   <h3 class="featured">Recently Added Events</h3>
   <div>
         <div class="eventcard" ng-repeat="(key,value) in events | orderBy : sortType | filter : eventNameSearch"><h3 ng-bind="value.title"></h3><p ng-bind="value.description"></p><button ng-click = "addEvent(value)">Add to Trip</button> <div class="voting">
-                    <!--  <img class="up" src="img/upvote.png">-->
-                    <p class="upnum">up</p>
-                    <!--  <img class="down" src="img/downvote.png">-->
-                    <p class="downnum">down</p>
                   </div></div>
  </div>
 </div>

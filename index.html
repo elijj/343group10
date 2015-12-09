@@ -45,10 +45,10 @@
         <img src="assets/img/globe.png">
         <p class="navtitle">Itinerary Builder</p>
         <ul>
-          <li ng-bind="itineraries[currentItinerary].title"></li>
+          <li ng-bind="itineraries[currentItinerary].title">Current trip:</li>
           <li><a ui-sref="discover">Discover</a></li>
           <li><a ui-sref="search">Search</a></li>
-          <li><a ui-sref="trips">Your Trips</a></li>
+          <li><a ng-show="!userId" ui-sref="trips">Your Trips</a></li>
           <li><a ui-sref="discover" ng-show = "userId" ng-click="logOut()">Sign Out</a></li>
         </ul>
       </nav>

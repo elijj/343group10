@@ -106,29 +106,8 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           events : {count:0}
         }).then(function(ref) {
           $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
-          $scope.createLink();
         });
     };
-
-    $scope.createLink = function(){
-    var key = $scope.itineraries.$keyAt($scope.currentItinerary);
-    var request = $http({
-    method: "post",
-      url: "makelink.php",
-      data: {
-        key: key
-      },
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    });
-    /* Check whether the HTTP Request is successful or not. */
-    request.success(function (data) {
-            $scope.itineraries[$scope.currentItinerary].link = $scope.itineraries.$keyAt($scope.currentItinerary)+".html";
-            $scope.itineraries.$save($scope.currentItinerary).then(function(ref) {
-            //ref.key() === $scope.itineraries[$scope.currentItinerary].$id; // true
-          });
-    });
-
-
     //post: the selection for the itinerary to work on is changed and the model is updated.
     $scope.selectItinerary = function(id){
         Data.setItinerary(id);//set global scope so we no witch is currently being worked on  $scope.currentItinerary = '';
@@ -157,7 +136,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           $scope.itineraries[$scope.currentItinerary].events = ar;
           $scope.itineraries[$scope.currentItinerary].events.count = $scope.itineraries[$scope.currentItinerary].events.count + 1;
           $scope.itineraries.$save($scope.currentItinerary).then(function(ref) {
-            //ref.key() === $scope.itineraries[$scope.currentItinerary].$id; // true
+            ref.key() === $scope.itineraries[$scope.currentItinerary].$id; // true
           });
         });
     };
@@ -358,7 +337,7 @@ myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $fir
               var sd = new Date(value.start.utc);
               var ed = new Date(value.end.utc);
               value.start.utc = sd.toLocaleString();
-              value.end.utc = sd.toLocaleString();
+              value.end.utc = ed.toLocaleString();
             });
 
       })
