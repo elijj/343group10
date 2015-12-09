@@ -10,7 +10,7 @@ https://www.firebase.com/docs/web/guide/saving-data.html
 https://www.firebase.com/blog/2013-10-01-queries-part-one.html#byid
 */
 var baseUrl = 'https://www.eventbriteapi.com/v3/events/';
-var myApp = angular.module('myApp', ['ui.router','firebase','ngSanitize'])
+var myApp = angular.module('myApp', ['ui.router','firebase', 'cgBusy'])
 // Configure the app
 .config(function($stateProvider) {
   $stateProvider
@@ -324,7 +324,7 @@ myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $fir
             url += '&start_date.range_end='+ $scope.searchDate + "T23%3A59%3A59Z";
         }
 
-        $http.get(url).success(function(response){
+        $scope.myPromise = $http.get(url).success(function(response){
 
             $scope.searchedEvents = response.events;
 

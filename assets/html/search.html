@@ -11,7 +11,7 @@
         <!-- Event Result-->
         <div class="row">
             <div class="col-xs-6">
-                <div class="eventsSearchResult">
+                <div cg-busy="myPromise" class="eventsSearchResult">
                     <div ng-repeat="searchedEvent in searchedEvents" class="eventcard" title="{{searchedEvent.name.text}}">
                         <img class="logo" src="{{searchedEvent.logo.url}}"> 
                         <h3>{{searchedEvent.name.text}}</h3>
