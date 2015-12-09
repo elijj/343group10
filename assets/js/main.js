@@ -24,12 +24,15 @@ var myApp = angular.module('myApp', ['ui.router','firebase','cgBusy'])
     templateUrl: 'assets/html/search.html', // HTML fragment
     controller: 'SearchController', // Which controller 
   })
-    .state('partyDetail', {
+    .state('trip', {
             url: '/trip/:pw',
-            controller: function($scope, $stateParams) {
+            controller : 'myCtrl',
+           /* controller: function($scope, $stateParams) {
                 // get the id
                 $scope.pw = $stateParams.pw;
-            }
+                alert($scope.pw);
+            },*/
+    templateUrl: 'assets/html/temp.html', 
     })
   .state('trips', { // About page
     url:'/trips',
@@ -63,15 +66,20 @@ myApp.factory('Data', function () {
 // ---- Configure Controllers for App ---- //
 //global controller 
 //This controler controls user log ins
-var myCtrl = myApp.controller('myCtrl', function($timeout,$scope,$firebaseAuth,$firebaseObject,$firebaseArray,Data) {
+var myCtrl = myApp.controller('myCtrl', function($stateParams,$timeout,$scope,$firebaseAuth,$firebaseObject,$firebaseArray,Data) {
   $scope.ref = new Firebase("https://ourtrip.firebaseio.com/");
     var userRef  = $scope.ref.child('user');
     /*ref.child('itinerary').orderByKey().on("child_added", function(snapshot) {
     //console.log(snapshot.key());
   });*/
+
     $scope.users = $firebaseObject(userRef);//users
     $scope.authObj = $firebaseAuth($scope.ref);
     $scope.itineraries = $firebaseArray($scope.ref.child('itinerary'));//loads all interary objects in firebase **** NEEDS TO BE FOR USER
+    
+    $scope.pw = $stateParams.pw;
+    $intinObject = $scope.itineraries[$scope.pw];
+
     $scope.events = $firebaseArray($scope.ref.child('events'));
     $scope.currentItinerary = Data.currentItinerary;
     $scope.currentUser = Data.getUserId();
@@ -107,6 +115,9 @@ var myCtrl = myApp.controller('myCtrl', function($timeout,$scope,$firebaseAuth,$
           events : {count:0}
         }).then(function(ref) {
           $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
+          $scope.itineraries[$scope.currentItinerary].link = "#/trip/"+ref.key();
+          $scope.itineraries.$save($scope.currentItinerary).then(function(ref) {
+          });
         });
     };
     //post: the selection for the itinerary to work on is changed and the model is updated.

@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div ng-repeat="(key,value) in itineraries[currentItinerary] ">
-                        <div ng-if="key == 'password' || key == 'location' || key == 'description'">
+                        <div ng-if="key == 'password' || key == 'location' || key == 'description' || key == 'link'">
                             <label class="setwidth">{{key}}: </label>
                             <div class="itinval">{{value}}</div>
                         </div>
@@ -76,7 +76,7 @@
 
        <!-- start of form group -->
             <div class="form-group">
-                <h4 class="formheader">Create New Event (check current itinerary for latest date</h4>
+                <h4 class="formheader">Create New Event
                 <label>Event Title:</label>
                 <input name="eventTitle" class="form-control" ng-model="eventTitle" ng-minlength="1" required>
                 <p ng-show="myForm.eventTitle.$error.minlength" class="help-block">Event title is invalid.</p>

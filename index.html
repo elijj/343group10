@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=0">
-    <title>Our Trips FINAL</title>
+    <title>Itinerary Builder</title>
     
     <!-- Libraries -->
     <script src="https://code.jquery.com/jquery.min.js"></script>
@@ -53,7 +53,12 @@
           <li><a ui-sref="discover" ng-show = "userId" ng-click="logOut()">Sign Out</a></li>
         </ul>
       </nav>
-        
+      
+      <div id ="shared" ng-show="itineraries[$scope.pw]">
+          test
+      </div>
+
+
 
       <div class="container">
         <h1 ng-show="!userId">Login</h1>

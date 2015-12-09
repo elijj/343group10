@@ -1,0 +1,20 @@
+
+        
+        <div class ="container">
+                <div class="trippage">
+                <h1 ng-bind="itinObj.title"></h1>
+                <h3></h3>
+                <div class="members">
+                  <p ng-bind="itinObj.creatorId"></p>
+                </div>
+
+                <div class="eventcard" ng-repear=" event in itinObj.events">
+                  <img src="{{event.logo.url}}}">
+                  <h2 event.title></h2>
+                  <p event.description></p>
+                  <p></p>
+                
+                </div>
+
+              </div>
+        </div>
