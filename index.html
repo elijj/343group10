@@ -45,7 +45,8 @@
         <img src="assets/img/globe.png">
         <p class="navtitle">Itinerary Builder</p>
         <ul>
-          <li ng-bind="itineraries[currentItinerary].title">Current trip:</li>
+          <li ng-bind="added"></li>
+          <li ng-bind="itineraries[currentItinerary].title"></li>
           <li><a ui-sref="discover">Discover</a></li>
           <li><a ui-sref="search">Search</a></li>
           <li ng-show="userId"><a ui-sref="trips">Your Trips</a></li>

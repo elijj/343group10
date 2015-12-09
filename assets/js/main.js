@@ -29,7 +29,6 @@ var myApp = angular.module('myApp', ['ui.router','firebase','cgBusy'])
             controller: function($scope, $stateParams) {
                 // get the id
                 $scope.pw = $stateParams.pw;
-                alert($scope.pw);
             }
     })
   .state('trips', { // About page
@@ -64,7 +63,7 @@ myApp.factory('Data', function () {
 // ---- Configure Controllers for App ---- //
 //global controller 
 //This controler controls user log ins
-var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseObject,$firebaseArray,Data) {
+var myCtrl = myApp.controller('myCtrl', function($timeout,$scope,$firebaseAuth,$firebaseObject,$firebaseArray,Data) {
   $scope.ref = new Firebase("https://ourtrip.firebaseio.com/");
     var userRef  = $scope.ref.child('user');
     /*ref.child('itinerary').orderByKey().on("child_added", function(snapshot) {
@@ -302,6 +301,9 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
             //choose which itinerary // true
         });
       }
+      $scope.added = "added to";
+      $timeout(function(){$scope.added = ""}, 3000);
+      ;
     }
 
     
