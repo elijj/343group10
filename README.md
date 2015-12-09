@@ -18,7 +18,7 @@ This project was made for INFO343 at the University of Washington.
 
 *Creators: Eli Jackson, Jessica Ro, Kirk Lestelle, and Kenny Rodgers*
 
-### "my favorite candy is 100 grand" - Eli Jackson
+### "my favorite candy is 100 grand" - EJ
 
 
 
