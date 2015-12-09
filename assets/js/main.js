@@ -104,7 +104,6 @@ var myCtrl = myApp.controller('myCtrl', function($timeout,$scope,$firebaseAuth,$
           title : $scope.itineraryTitle,
           image : $scope.itineraryImage,
           addedTime : Firebase.ServerValue.TIMESTAMP,
-          contributors : {count:0},
           events : {count:0}
         }).then(function(ref) {
           $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
@@ -301,9 +300,13 @@ var myCtrl = myApp.controller('myCtrl', function($timeout,$scope,$firebaseAuth,$
             //choose which itinerary // true
         });
       }
-      $scope.added = "added to";
+      if($scope.currentItinerary){
+        $scope.added = "added to";
+      }else{
+        $scope.added = "select an itinerary from your trips";
+      }
       $timeout(function(){$scope.added = ""}, 3000);
-      ;
+      
     }
 
     

@@ -1,18 +1,13 @@
-<div id="tripspage" >
+
   <h4>Welcome <span ng-bind="users[userId].email"></span>,</h4>
   <h1>Your Trips</h1>
 
 
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#" ng-click="sortType='title'">Name</a></li>
-    <li><a href="#" ng-click="sortType='date'">Date</a></li>
-  </ul>
-</div>
 
 
     <!-- list of itins need filter and ng-repeat for each items -->
     <select multiple class="form-control">
-        <option ng-repeat="(key,value) in itineraries | orderBy : sortType | filter : value.creatorId = currentUser | filter : search" ng-click="selectItinerary(key)" ng-bind="value.title"></option>
+        <option ng-repeat="(key,value) in itineraries | filter : value.creatorId = currentUser" ng-click="selectItinerary(key)" ng-bind="value.title"></option>
     </select>
 
 
