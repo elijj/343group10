@@ -10,7 +10,7 @@ https://www.firebase.com/docs/web/guide/saving-data.html
 https://www.firebase.com/blog/2013-10-01-queries-part-one.html#byid
 */
 var baseUrl = 'https://www.eventbriteapi.com/v3/events/';
-var myApp = angular.module('myApp', ['ui.router','firebase'])
+var myApp = angular.module('myApp', ['ui.router','firebase','ngSanitize'])
 // Configure the app
 .config(function($stateProvider) {
   $stateProvider
@@ -71,7 +71,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
     $scope.authObj = $firebaseAuth($scope.ref);
     $scope.itineraries = $firebaseArray($scope.ref.child('itinerary'));//loads all interary objects in firebase **** NEEDS TO BE FOR USER
     $scope.events = $firebaseArray($scope.ref.child('events'));
-    
+
     $scope.currentItinerary = Data.currentItinerary;
     $scope.currentUser = Data.getUserId();
     $scope.itineraryPassword = "";
@@ -284,13 +284,15 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 
 // Trip Controller
 // this controller will control displays and functionality to create a new trip
-myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data){
+myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $firebaseArray, $firebaseObject,Data, $sce){
   $scope.currentUser = Data.getUserId();
-  //Search
+  // Search
 
     //Gains data from Eventbrite API with given key, city, and/or date, 
     //and save those data as searchedEvents
     $scope.searchEvent = function() {
+        
+
         var url = baseUrl + 'search/?token=5TSGMBRNEWKIX4ZN6MMA';
         //token gotten from my eventbrite app. We COULD(Not have to) 
         //further develop with giving option to type in their 
@@ -311,7 +313,15 @@ myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $fir
         $http.get(url).success(function(response){
 
             $scope.searchedEvents = response.events;
-        })
+
+            angular.forEach($scope.searchedEvents, function(value, key) {
+              var sd = new Date(value.start.utc);
+              var ed = new Date(value.end.utc);
+              value.start.utc = sd.toLocaleString();
+              value.end.utc = sd.toLocaleString();
+            });
+
+      })
     }
 });
 
