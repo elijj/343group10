@@ -48,7 +48,7 @@
         
 
       <div class="container">
-        <h1>Login</h1>
+        <h1 ng-show="!userId">Login</h1>
         <form ng-show="!userId" name="myForm" novalidate >
             <!-- Bind model "handle" to this input, set minimum length, and make it required -->
             <!-- Bind model "email" to this input and make it required -->
