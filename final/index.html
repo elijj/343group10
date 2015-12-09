@@ -33,22 +33,22 @@
   </head>
   <body>
     <div ng-app="myApp" ng-controller="myCtrl">
-      <header>
 
-        <!-- Create links to different sections -->
-          <h1>Our Trip System</h1> 
-          <div>      
-            <a class="btn btn-default" ui-sref="discover">Discover</a>
-            <a class="btn btn-default" ui-sref="search">Search</a>
-            <a ng-show="currentTrip" class="btn btn-default" ui-sref="current">Current Trip</a>
-            <a ng-show="userId" class="btn btn-default" ui-sref="trips">Your Trips</a>
-            <a ng-show="userId" ng-click="logOut()" ui-sref="discover" class="btn btn-warning">Logout</a>
-          </div>
-  		</header>
+
+      <nav class="navbar navbar-fixed-top" id="navbar">
+        <img src="assets/img/globe.png">
+        <p>Itinerary Builder</p>
+        <ul>
+          <li><a ui-sref="discover">Discover</a></li>
+          <li><a ui-sref="search">Search</a></li>
+          <li><a ui-sref="trips">Your Trips</a></li>
+          <li class="signout"><a href="">Sign Out</a></li>
+        </ul>
+      </nav>
         
 
       <div class="container">
-
+        <h1>Login</h1>
         <form ng-show="!userId" name="myForm" novalidate >
             <!-- Bind model "handle" to this input, set minimum length, and make it required -->
             <!-- Bind model "email" to this input and make it required -->
