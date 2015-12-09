@@ -2,13 +2,6 @@
   <h4>Welcome <span ng-bind="users[userId].email"></span>,</h4>
   <h1>Your Trips</h1>
 
-  <!-- <input type="text" class="form-control" ng-model="search">
-  
-  <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Sort by
-    <span class="caret"></span>
-  </button> -->
 
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
     <li><a href="#" ng-click="sortType='title'">Name</a></li>
@@ -17,19 +10,10 @@
 </div>
 
 
-
     <!-- list of itins need filter and ng-repeat for each items -->
     <select multiple class="form-control">
         <option ng-repeat="(key,value) in itineraries | orderBy : sortType | filter : value.creatorId = currentUser | filter : search" ng-click="selectItinerary(key)" ng-bind="value.title"></option>
     </select>
-     <!--<table>
-    <tr ng-repeat="(key,value) in itineraries | orderBy : sortType | filter : value.creatorId = currentUser | filter : search">
-            <td>{{value.title}}<button ng-click="selectItinerary(key)" class="btn btn-success">Select</button></td>
-            
-   </tr>
-    </table>
-
-        end of list -->
 
 
     <!--creat itin -->
@@ -78,11 +62,19 @@
                 <div class="form-group">
                     <label>{{itineraries[currentItinerary].title}} Summary: </label>
                     <div ng-repeat="(key,value) in itineraries[currentItinerary] ">
-                        <label class="setwidth">{{key}}: </label>
-                        <input value="{{value}}"></input>
+                        <div ng-if="key == 'image'">
+                            <img src="{{value}}">
+                        </div>
+                    </div>
+                    <div ng-repeat="(key,value) in itineraries[currentItinerary] ">
+                        <div ng-if="key == 'password' || key == 'location' || key == 'description'">
+                            <label class="setwidth">{{key}}: </label>
+                            <div>{{value}}</div>
+                        </div>
+
                     </div>  
                 </div>
-                <button ng-show="!currentItinerary.link" ng-click="createLink()" class="btn btn-success">Create link</button>
+                <button ng-click="saveChange()" class="btn btn-success">Save Changes</button>
             </div>
     <!-- end of itin display -->
     

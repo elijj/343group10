@@ -10,7 +10,7 @@ https://www.firebase.com/docs/web/guide/saving-data.html
 https://www.firebase.com/blog/2013-10-01-queries-part-one.html#byid
 */
 var baseUrl = 'https://www.eventbriteapi.com/v3/events/';
-var myApp = angular.module('myApp', ['ui.router','firebase','ngSanitize'])
+var myApp = angular.module('myApp', ['ui.router','firebase','cgBusy'])
 // Configure the app
 .config(function($stateProvider) {
   $stateProvider
@@ -61,7 +61,7 @@ myApp.factory('Data', function () {
 // ---- Configure Controllers for App ---- //
 //global controller 
 //This controler controls user log ins
-var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseObject,$firebaseArray,Data,$http) {
+var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseObject,$firebaseArray,Data) {
   $scope.ref = new Firebase("https://ourtrip.firebaseio.com/");
     var userRef  = $scope.ref.child('user');
     /*ref.child('itinerary').orderByKey().on("child_added", function(snapshot) {
@@ -106,7 +106,6 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           events : {count:0}
         }).then(function(ref) {
           $scope.selectItinerary($scope.itineraries.$indexFor(ref.key()));
-          $scope.createLink();
         });
     };
     //post: the selection for the itinerary to work on is changed and the model is updated.
@@ -141,21 +140,32 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           });
         });
     };
-    $scope.createLink = function(){
-      var key = $scope.itineraries.$keyAt($scope.currentItinerary);
-      var request = $http({
-      method: "post",
-      url: "makelink.php",
-      data: {
-          key: key
-      },
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    });
 
-    /* Check whether the HTTP Request is successful or not. */
-    request.success(function (data) {
-        alert('work');
-    }).
+    $scope.saveChange = function(){
+     
+      $scope.itineraries.$save($scope.currentItinerary).then(function(ref) {
+            ref.key() === $scope.itineraries[$scope.currentItinerary].$id; // true
+      });
+
+    }
+
+    $scope.updateItinerary = function(){
+      var method = 'POST';
+      var url = '/assets/php/makelink.php';
+      $scope.codeStatus = "";
+      var FormData = {
+        'itin' : $scope.itineraries[$scope.currentItinerary]
+      };
+      $http({
+        method: method,
+        url: url,
+        data: FormData,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        cache: $templateCache
+      }).
+      success(function(response) {
+          $scope.codeStatus = response.data;
+      }).
       error(function(response) {
           $scope.codeStatus = response || "Request failed";
       });
@@ -252,6 +262,19 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
       $scope.currentItinerary = false;
     }
 
+
+    $scope.like = function(theEvent) {
+        theEvent.likes++;
+        $scope.events.$save();
+    }
+
+    $scope.dislike = function(theEvent) {
+        theEvent.dislikes++;
+        $scope.events.$save();
+    }
+    
+    
+
     $scope.addEvent = function(savingEventId){
       var duplicate = false;
       angular.forEach($scope.events, function(value, key) {
@@ -308,7 +331,7 @@ myApp.controller('SearchController', function($scope, $http, $firebaseAuth, $fir
             url += '&start_date.range_end='+ $scope.searchDate + "T23%3A59%3A59Z";
         }
 
-        $http.get(url).success(function(response){
+        $scope.myPromise = $http.get(url).success(function(response){
             $scope.searchedEvents = response.events;
             angular.forEach($scope.searchedEvents, function(value, key) {
               var sd = new Date(value.start.utc);
