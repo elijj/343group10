@@ -25,14 +25,17 @@
   </a>
 
     <!-- list of itins need filter and ng-repeat for each items -->
-    <table>
+    <select multiple class="form-control">
+        <option ng-repeat="(key,value) in itineraries | orderBy : sortType | filter : value.creatorId = currentUser | filter : search" ng-click="selectItinerary(key)" ng-bind="value.title"></option>
+    </select>
+     <!--<table>
     <tr ng-repeat="(key,value) in itineraries | orderBy : sortType | filter : value.creatorId = currentUser | filter : search">
             <td>{{value.title}}<button ng-click="selectItinerary(key)" class="btn btn-success">Select</button></td>
             
    </tr>
     </table>
 
-        <!-- end of list -->
+        end of list -->
 
 
     <!--creat itin -->
