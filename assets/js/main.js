@@ -24,11 +24,14 @@ var myApp = angular.module('myApp', ['ui.router','firebase','cgBusy'])
     templateUrl: 'assets/html/search.html', // HTML fragment
     controller: 'SearchController', // Which controller 
   })
-  /*.state('current', { // About page
-    url:'/current',
-    templateUrl: 'assets/html/trip.html', // HTML fragment
-    controller: 'AboutController', // Which controller 
-  })*/
+    .state('partyDetail', {
+            url: '/trip/:pw',
+            controller: function($scope, $stateParams) {
+                // get the id
+                $scope.pw = $stateParams.pw;
+                alert($scope.pw);
+            }
+    })
   .state('trips', { // About page
     url:'/trips',
     templateUrl: 'assets/html/trips.html', // HTML fragment
