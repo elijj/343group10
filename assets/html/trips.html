@@ -2,13 +2,13 @@
   <h4>Welcome <span ng-bind="users[userId].email"></span>,</h4>
   <h1>Your Trips</h1>
 
-  <input type="text" class="form-control" ng-model="search">
+  <!-- <input type="text" class="form-control" ng-model="search">
   
   <div class="dropdown">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     Sort by
     <span class="caret"></span>
-  </button>
+  </button> -->
 
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
     <li><a href="#" ng-click="sortType='title'">Name</a></li>
@@ -74,17 +74,16 @@
 
 
     <!-- if there is a itin display -->
-    <div ng-show = "currentItinerary">
-
-    <div class="form-group">
-        <label>Itinerary Title:{{itineraries[currentItinerary].title}} attributes : </label>
-        <table>
-            <tr ng-repeat="(key,value) in itineraries[currentItinerary] ">
-                <td> {{key}} </td> <td> {{ value }} </td>
-            </tr>  
-        </table>  
-    </div>
-    <button ng-show="!currentItinerary.link" ng-click="createLink()" class="btn btn-success">Create link</button>
+            <div ng-show="currentItinerary">
+                <div class="form-group">
+                    <label>{{itineraries[currentItinerary].title}} Summary: </label>
+                    <div ng-repeat="(key,value) in itineraries[currentItinerary] ">
+                        <label class="setwidth">{{key}}: </label>
+                        <input value="{{value}}"></input>
+                    </div>  
+                </div>
+                <button ng-show="!currentItinerary.link" ng-click="createLink()" class="btn btn-success">Create link</button>
+            </div>
     <!-- end of itin display -->
     
 

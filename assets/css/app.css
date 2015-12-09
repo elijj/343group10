@@ -38,6 +38,10 @@ nav img {
 	margin-right: 10%;
 }
 
+.setwidth {
+	width: 150px;
+}
+
 nav img, nav p {
 	float: left;
 }
@@ -185,16 +189,9 @@ input {
 }
 
 /* Discover page */
-#discoverpage {
-	margin-left: 250px;
-}
 
 .featured {
 	margin-top: 35px;
-}
-
-#tripspage {
-	margin-left: 250px;
 }
 
 #tripspage h4 {
@@ -231,7 +228,7 @@ input {
 
 /* trip page */
 .trippage {
-	margin-left: 250px;
+	margin-left: 10%;
 }
 
 .trippage .dropdown {
