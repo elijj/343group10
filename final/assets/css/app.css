@@ -264,3 +264,17 @@ input {
 	margin-right: 10px;
 }
 
+/* mobile */
+@media (max-width: 745px) {
+	.navtitle {
+		display: none;
+	}
+
+	nav ul {
+		font-size: 12px;
+	}
+
+	nav ul li {
+		margin-right: 15px;
+	}
+}
