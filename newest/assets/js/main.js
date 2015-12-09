@@ -17,7 +17,7 @@ var myApp = angular.module('myApp', ['ui.router','firebase'])
 	.state('discover', { // Landing page
 	  url:'/',
 	  templateUrl: 'assets/html/discover.html', // HTML fragment
-	  controller: 'TripController', // Which controller 
+	  controller: 'myCtrl', // Which controller 
 	})
 	/*.state('current', { // About page
 	  url:'/current',
@@ -27,7 +27,7 @@ var myApp = angular.module('myApp', ['ui.router','firebase'])
 	.state('trips', { // About page
 	  url:'/trips',
 	  templateUrl: 'assets/html/trips.html', // HTML fragment
-	  controller: 'myCtrl', // Which controller 
+	  controller: 'TripController', // Which controller 
 	});
 })
 
@@ -84,6 +84,11 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
     $scope.eventTitle = "";
     $scope.eventImage = "";
     $scope.eventPrivacy = "";
+
+    $scope.eventEnd = "";
+    $scope.eventStart = "";
+    $scope.eventPrivacy = "";
+
     $scope.eventPrice = 0;
     $scope.userMadeObj = {};
 
@@ -134,7 +139,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
           var ar = $scope.itineraries[$scope.currentItinerary].events
           ar[$scope.itineraries[$scope.currentItinerary].events.count] = ref.key();
           $scope.itineraries[$scope.currentItinerary].events = ar;
-          $scope.itineraries[currentItinerary].events.count = $scope.itineraries[currentItinerary].events.count + 1;
+          $scope.itineraries[$scope.currentItinerary].events.count = $scope.itineraries[$scope.currentItinerary].events.count + 1;
           $scope.itineraries.$save($scope.currentItinerary).then(function(ref) {
             ref.key() === $scope.itineraries[$scope.currentItinerary].$id; // true
           });
@@ -145,7 +150,7 @@ var myCtrl = myApp.controller('myCtrl', function($scope,$firebaseAuth,$firebaseO
 
     $scope.createLink = function(){
       var method = 'POST';
-      var url = 'makelink.php';
+      var url = '/assets/php/makelink.php';
       $scope.codeStatus = "";
       var FormData = {
         'itin' : $scope.itineraries[$scope.currentItinerary]

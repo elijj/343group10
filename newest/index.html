@@ -8,8 +8,9 @@
     
     <!-- Libraries -->
     <script src="https://code.jquery.com/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
  
     <!-- Firebase -->
@@ -23,6 +24,9 @@
     <!-- bootbox -->
      <script src ="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+
     <!-- Custom code -->
     <script src="assets/js/main.js"></script>
     <link href = "assets/css/app.css" rel="stylesheet" type = "text/css"/>
@@ -33,9 +37,10 @@
       <header>
 
         <!-- Create links to different sections -->
-          <h1>Our Trip System</h1> 
+          <h1>Our Trip System </h1> 
           <div>      
             <a ng-show="userId" class="btn btn-default" ui-sref="discover">Discover</a>
+            <a ng-show="userId" class="btn btn-default" ui-sref="search">Search</a>
             <a ng-show="currentTrip" class="btn btn-default" ui-sref="current">Current Trip</a>
             <a ng-show="userId" class="btn btn-default" ui-sref="trips">Your Trips</a>
             <button ng-show="userId" ng-click="logOut()" class="btn btn-warning">Logout</button>
