@@ -48,7 +48,7 @@
           <li ng-bind="itineraries[currentItinerary].title">Current trip:</li>
           <li><a ui-sref="discover">Discover</a></li>
           <li><a ui-sref="search">Search</a></li>
-          <li><a ng-show="!userId" ui-sref="trips">Your Trips</a></li>
+          <li ng-show="userId"><a ui-sref="trips">Your Trips</a></li>
           <li><a ui-sref="discover" ng-show = "userId" ng-click="logOut()">Sign Out</a></li>
         </ul>
       </nav>
