@@ -4,24 +4,31 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=0">
-    <title>Login</title>
+    <title>Our Trips FINAL</title>
     
     <!-- Libraries -->
     <script src="https://code.jquery.com/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
- 
-    <!-- Firebase -->
-    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- Angular-->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-sanitize.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
     <!-- Add ui-router library here -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
      <!-- jQuery -->
      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <!-- bootbox -->
      <script src ="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+
 
     <!-- Custom code -->
     <script src="assets/js/main.js"></script>
@@ -30,32 +37,25 @@
   </head>
   <body>
     <div ng-app="myApp" ng-controller="myCtrl">
-      <header>
 
-        <!-- Create links to different sections -->
-          <h1>Our Trip System {{userId}}</h1> 
-          <div ng-show='userId'>      
-            <a class="btn btn-default" ui-sref="home">Home</a>
-            <a class="btn btn-default" ui-sref="content">Discover</a>
-            <a ng-show="currentTrip" class="btn btn-default" ui-sref="trip">Current Trip</a>
-            <a class="btn btn-default" ui-sref="about">Preview</a>
-            <button ng-click="logOut()" class="btn btn-warning">Logout</button>
-          </div>
-  		</header>
+
+      <nav class="navbar navbar-fixed-top" id="navbar">
+        <img src="assets/img/globe.png">
+        <p class="navtitle">Itinerary Builder</p>
+        <ul>
+          <li ng-bind="itineraries[currentItinerary].title"></li>
+          <li><a ui-sref="discover">Discover</a></li>
+          <li><a ui-sref="search">Search</a></li>
+          <li><a ui-sref="trips">Your Trips</a></li>
+          <li><a ui-sref="discover" ng-show = "userId" ng-click="logOut()">Sign Out</a></li>
+        </ul>
+      </nav>
         
 
       <div class="container">
-        <!-- Sign-in/sign-up form: show if userId isn't defined -->
-        <form ng-show='!userId' name="myForm" novalidate >
-
+        <h1 ng-show="!userId">Login</h1>
+        <form ng-show="!userId" name="myForm" novalidate >
             <!-- Bind model "handle" to this input, set minimum length, and make it required -->
-            <div class="form-group">
-                <h4>Sign in</h4>
-                <label>Username:</label>
-                <input name="handle" class="form-control" ng-model="handle" ng-minlength="1" required>
-                <p ng-show="myForm.handle.$error.minlength" class="help-block">Username is invalid.</p>
-                <!-- Add an error message if the length is too short -->
-            </div>
             <!-- Bind model "email" to this input and make it required -->
             <div class="form-group">
                 <label>Email:</label>
@@ -75,11 +75,12 @@
                 <button ng-click="signIn()" ng-disabled="myForm.email.$invalid || myForm.password.$invalid" type="submit" class="btn btn-primary">Sign-in</button>
             </div>
         </form>
-        <!-- end of sign in sign out div -->
 
-
+        
         <!-- This is where your content will display -->
-        <div ng-show='userId' ui-view></div>
+        <div  ui-view></div>
+
+
       </div>
 
       <!--<footer>
